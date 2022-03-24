@@ -1,4 +1,5 @@
 import {useState} from "react";
+require('dotenv').config()
 
 function App() {
 
@@ -10,14 +11,20 @@ function App() {
   const handleChange = (e:any) =>{
       setCidade(e.target.value)
   }
-
-  const key = process.env.KEY;
-
+  <pre>{process.env.REACT_APP_KEY_API}</pre>
+  
   const handleSearch = () => {
-    fetch(`http://api.weatherapi.com/v1/current.json?key=${key}&q=${cidade}&lang=pt`)
+    fetch(`http://api.weatherapi.com/v1/current.json?key=${process.env.REACT_APP_KEY_API}&q=${cidade}&lang=pt`)
+    .then((resp) => {
+      if(resp.status === 200){
+        return resp.json()
+      }
+    })
+    .then((data) =>{
+      console.log(data)
+    })
   }
-
-
+  
   return (
     <div>
       <nav className="navbar navbar navbar-expand-md navbar-dark bg-dark mb-4">
@@ -47,7 +54,7 @@ function App() {
               </div>
           </div>
 
-          <button className="btn btn-primary btn-lg">
+          <button onClick={handleSearch} className="btn btn-primary btn-lg">
             Pesquisar
           </button>
         </div>
