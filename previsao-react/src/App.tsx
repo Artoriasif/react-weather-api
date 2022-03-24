@@ -5,6 +5,7 @@ function App() {
 
   const [cidade, setCidade] = useState('')
   //primeiro parametro guarda o valor e a segunda manipula
+  const [weatherForCast, setWeatherForCast] = useState<any>(null)
 
 
   //criar uma funcao pra utilizar o setCidade
@@ -22,6 +23,7 @@ function App() {
     })
     .then((data) =>{
       console.log(data)
+      setWeatherForCast(data)
     })
   }
   
@@ -57,6 +59,23 @@ function App() {
           <button onClick={handleSearch} className="btn btn-primary btn-lg">
             Pesquisar
           </button>
+
+          {weatherForCast ? (
+            <div className="mt-4 d-flex align-items-center">
+
+              <div>
+                <img src={weatherForCast.current.condition.icon} />
+              </div>
+
+              <div>
+                <h3>Hoje o dia está: {weatherForCast.current.condition.text} </h3>
+              </div>
+              <p className="lead">
+                Tempo: {weatherForCast.current.temp_c}&deg;
+              </p>
+            </div>
+          ): null}
+           
         </div>
       </main>
     </div>
